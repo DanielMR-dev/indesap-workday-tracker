@@ -1,6 +1,6 @@
 # Indesap Workday Tracker
 
-Aplicación web para registrar jornadas laborales: un trabajador podrá identificarse con un código, iniciar y finalizar su jornada y consultar el tiempo transcurrido. La Fase 2 proporciona una API de jornadas persistente; la interfaz definitiva se desarrollará posteriormente.
+Aplicación web para registrar jornadas laborales: un trabajador podrá identificarse con un código, iniciar y finalizar su jornada y consultar el tiempo transcurrido. La aplicación integra una interfaz React con una API de jornadas persistente en SQLite.
 
 ## Tecnologías
 
@@ -51,7 +51,7 @@ La inicialización crea el directorio y el esquema si no existen; también ocurr
 | `npm run build` | Compila ambos proyectos. |
 | `npm run start -w @indesap/api` | Inicia la API compilada después de `npm run build`. |
 
-Abre <http://localhost:5173>. Vite envía las solicitudes `/api` a la API local. El frontend de esta fase solo presenta una pantalla inicial; no incluye el flujo de jornadas.
+Abre <http://localhost:5173>. Vite envía las solicitudes `/api` a la API local.
 
 ## Health check
 
@@ -119,6 +119,21 @@ Los errores tienen forma `{"error":{"code":"...","message":"..."}}`:
 | `413` | `PAYLOAD_TOO_LARGE` | El cuerpo supera el límite del analizador JSON. |
 | `500` | `INTERNAL_SERVER_ERROR` | Error inesperado; no se exponen detalles internos. |
 
+## Interfaz de jornadas — Fase 3
+
+El frontend React organiza el formulario de identificación, la jornada activa, el cronómetro y el resumen en componentes independientes. Un servicio centralizado utiliza `fetch` y el proxy de Vite para consultar los tres endpoints de la API. Los datos de trabajadores y jornadas proceden del backend; no se usan registros simulados en la interfaz.
+
+1. Ejecuta `npm install`, `npm run db:init` y `npm run db:seed` desde la raíz; inicia ambos servicios con `npm run dev`.
+2. Abre <http://localhost:5173>, ingresa `EMP001` o `EMP002` respetando mayúsculas y pulsa **Iniciar jornada**. El nombre y el inicio proceden de la API.
+3. Actualiza la página con la jornada activa: la interfaz consulta de nuevo al servidor y conserva la hora original. Para probar el conflicto entre pestañas, inicia una jornada e ingresa el mismo código en otra pestaña.
+4. Pulsa **Terminar jornada** y revisa el resumen; **Nueva jornada** vuelve al formulario. Puedes repetir el procedimiento con el otro trabajador.
+
+El cronómetro recalcula la diferencia entre `startedAt` y el reloj local del navegador; es aproximado y puede verse afectado por un reloj incorrecto. La duración definitiva del resumen es `workedSeconds`, calculada por el backend. Las fechas UTC se presentan en la zona horaria local del navegador.
+
+`sessionStorage` guarda únicamente el código de la jornada consultada en esa pestaña para recuperarla al actualizar. El servidor y SQLite son la fuente de verdad. Si el almacenamiento de la pestaña no está disponible, el flujo actual funciona, pero no se puede recuperar automáticamente tras actualizar. Los errores de validación, negocio y conexión se muestran en la interfaz; ante un resultado de red incierto se consulta el estado y se ofrece reintentar si no se puede recuperar. Si una jornada se finalizó fuera de la pestaña, no se inventa un resumen que la API no proporcionó.
+
+Los códigos son identificadores de un prototipo y no constituyen un sistema de autenticación seguro para producción.
+
 ## Estado
 
-Fases 1 y 2 implementadas: base técnica, API y persistencia de jornadas. El frontend conserva la pantalla inicial; el formulario y el cronómetro visual pertenecen a la Fase 3 y la suite exhaustiva de pruebas a la Fase 4.
+Fases 1, 2 y 3 implementadas: base técnica, API persistente e interfaz integrada de jornadas. La Fase 4 queda pendiente para pruebas adicionales y refinamientos.

@@ -1,6 +1,21 @@
 @import 'tailwindcss';
 
-body {
-  margin: 0;
-  font-family: system-ui, sans-serif;
-}
+:root { font-family: system-ui, sans-serif; color-scheme: dark; background: #020617; }
+body { margin: 0; min-width: 320px; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: wait; opacity: .6; }
+:focus-visible { outline: 3px solid #67e8f9; outline-offset: 3px; }
+.shell { @apply flex min-h-screen items-center justify-center bg-slate-950 px-4 py-10 text-slate-100 sm:px-6; background-image: radial-gradient(ellipse at 50% 0%, #164e6345, transparent 55%); }
+.layout { @apply w-full max-w-xl; }
+.brand-mark { @apply flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-300 text-xl font-black text-slate-950; }
+.panel { @apply rounded-3xl border border-slate-700/70 bg-slate-900/95 p-6 shadow-2xl shadow-black/30 sm:p-10; }
+.eyebrow { @apply text-xs font-bold uppercase tracking-[0.2em] text-cyan-300; }
+.field { @apply w-full rounded-xl border border-slate-600 bg-slate-950 px-4 py-3.5 text-base text-white placeholder:text-slate-500; }
+.button-primary, .button-secondary { @apply flex w-full items-center justify-between gap-3 rounded-xl px-5 py-4 text-sm font-bold transition-colors; }
+.button-primary { @apply bg-cyan-300 text-slate-950 hover:bg-cyan-200 disabled:hover:bg-cyan-300; }
+.button-secondary { @apply border border-slate-500 bg-slate-800 text-white hover:bg-slate-700 disabled:hover:bg-slate-800; }
+.badge { @apply inline-flex items-center gap-2 rounded-full border border-emerald-800 bg-emerald-950/70 px-3 py-1.5 text-xs font-semibold text-emerald-300; }
+.timer-box { @apply rounded-2xl border border-slate-700 bg-slate-950/80 p-5 sm:p-6; }
+.timer { @apply mt-3 break-all font-mono text-4xl font-semibold tracking-tight text-white sm:text-5xl; font-variant-numeric: tabular-nums; }
+.error { @apply rounded-xl border border-rose-800 bg-rose-950/60 px-4 py-3 text-sm leading-relaxed text-rose-200; }
