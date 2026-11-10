@@ -16,7 +16,10 @@
     "typecheck": "npm run typecheck --workspaces --if-present",
     "lint": "eslint .",
     "db:init": "npm run db:init -w @indesap/api",
-    "db:seed": "npm run db:seed -w @indesap/api"
+    "db:seed": "npm run db:seed -w @indesap/api",
+    "test": "npm run test:api && npm run test:web",
+    "test:api": "npm run test -w @indesap/api",
+    "test:web": "npm run test -w @indesap/web"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

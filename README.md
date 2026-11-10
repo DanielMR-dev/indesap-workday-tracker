@@ -49,6 +49,9 @@ La inicialización crea el directorio y el esquema si no existen; también ocurr
 | `npm run typecheck` | Comprueba TypeScript en ambos proyectos. |
 | `npm run lint` | Ejecuta ESLint. |
 | `npm run build` | Compila ambos proyectos. |
+| `npm run test` | Ejecuta las pruebas de API y frontend una sola vez. |
+| `npm run test:api` | Ejecuta las pruebas de integración de la API y SQLite. |
+| `npm run test:web` | Ejecuta las pruebas del frontend. |
 | `npm run start -w @indesap/api` | Inicia la API compilada después de `npm run build`. |
 
 Abre <http://localhost:5173>. Vite envía las solicitudes `/api` a la API local.
@@ -134,6 +137,24 @@ El cronómetro recalcula la diferencia entre `startedAt` y el reloj local del na
 
 Los códigos son identificadores de un prototipo y no constituyen un sistema de autenticación seguro para producción.
 
+## Fase 4 — Pruebas y aseguramiento de calidad
+
+Vitest ejecuta las pruebas; Supertest comprueba HTTP sobre Express y React Testing Library, user-event, jest-dom y jsdom verifican la interfaz. Los archivos están en `apps/api/tests` y `apps/web/tests`. Las pruebas unitarias aíslan cálculos y comunicación HTTP; las de integración ejercitan Express con SQLite real o los flujos de React con el servicio simulado.
+
+```bash
+npm install
+npm run test             # API y frontend, ejecución única
+npm run test:api         # solo backend
+npm run test:web         # solo frontend
+npm run typecheck
+npm run lint
+npm run build
+```
+
+Cada prueba de API crea una base SQLite en memoria, aplica `schema.sql`, activa claves foráneas e inserta empleados ficticios. La prueba de persistencia usa un directorio temporal y lo elimina; ninguna utiliza la base de desarrollo. Supertest requiere permiso para abrir puertos locales. Se comprueban inicio, consulta, finalización, duplicados, empleados independientes, validaciones, errores sanitizados, restricciones SQLite, duración con reloj controlado y dos solicitudes simultáneas en el mismo proceso. Esto no demuestra concurrencia entre procesos.
+
+El frontend verifica formato de fechas y duraciones, solicitudes HTTP y errores, componentes accesibles, cronómetro, recuperación, Strict Mode, operaciones repetidas y finalización incierta. Los flujos de React simulan el servicio; no sustituyen una prueba visual ni una prueba de extremo a extremo en un navegador real. También se ejecutó un ciclo HTTP real con servidores locales y SQLite temporal; la recuperación visual tras refrescar sigue pendiente de comprobación en navegador. No se configuró medición de cobertura y no se afirma un porcentaje.
+
 ## Estado
 
-Fases 1, 2 y 3 implementadas: base técnica, API persistente e interfaz integrada de jornadas. La Fase 4 queda pendiente para pruebas adicionales y refinamientos.
+Fases 1 a 4 implementadas: base técnica, API persistente, interfaz y pruebas automatizadas. La Fase 5 de entrega y sustentación permanece pendiente.

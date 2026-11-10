@@ -4,6 +4,7 @@ export function elapsedSeconds(startedAt: string, now: number): number | null {
 }
 
 export function formatDuration(seconds: number): string {
+  if (!Number.isFinite(seconds)) return 'No disponible';
   const value = Math.max(0, Math.floor(seconds));
   const hours = Math.floor(value / 3600);
   const minutes = Math.floor((value % 3600) / 60);
