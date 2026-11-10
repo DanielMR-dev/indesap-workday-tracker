@@ -154,7 +154,3 @@ npm run build
 Cada prueba de API crea una base SQLite en memoria, aplica `schema.sql`, activa claves foráneas e inserta empleados ficticios. La prueba de persistencia usa un directorio temporal y lo elimina; ninguna utiliza la base de desarrollo. Supertest requiere permiso para abrir puertos locales. Se comprueban inicio, consulta, finalización, duplicados, empleados independientes, validaciones, errores sanitizados, restricciones SQLite, duración con reloj controlado y dos solicitudes simultáneas en el mismo proceso. Esto no demuestra concurrencia entre procesos.
 
 El frontend verifica formato de fechas y duraciones, solicitudes HTTP y errores, componentes accesibles, cronómetro, recuperación, Strict Mode, operaciones repetidas y finalización incierta. Los flujos de React simulan el servicio; no sustituyen una prueba visual ni una prueba de extremo a extremo en un navegador real. También se ejecutó un ciclo HTTP real con servidores locales y SQLite temporal; la recuperación visual tras refrescar sigue pendiente de comprobación en navegador. No se configuró medición de cobertura y no se afirma un porcentaje.
-
-## Estado
-
-Fases 1 a 4 implementadas: base técnica, API persistente, interfaz y pruebas automatizadas. La Fase 5 de entrega y sustentación permanece pendiente.
