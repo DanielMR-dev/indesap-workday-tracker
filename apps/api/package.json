@@ -1,0 +1,26 @@
+{
+  "name": "@indesap/api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc && node -e \"require('node:fs').cpSync('src/database/schema.sql', 'dist/database/schema.sql')\"",
+    "typecheck": "tsc --noEmit",
+    "db:init": "tsx src/database/init.ts",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "dotenv": "^18.0.10",
+    "express": "^5.3.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
