@@ -8,7 +8,8 @@
     "build": "tsc && node -e \"require('node:fs').cpSync('src/database/schema.sql', 'dist/database/schema.sql')\"",
     "typecheck": "tsc --noEmit",
     "db:init": "tsx src/database/init.ts",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "db:seed": "tsx src/database/seed.ts"
   },
   "dependencies": {
     "better-sqlite3": "^13.0.3",
